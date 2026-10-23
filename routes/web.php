@@ -9,7 +9,13 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return match(auth()->user()->role){
+        'admin' => view("admin.dashboard"),
+        'teacher' => view("teacher.dashboard"),
+        'student' => view("student.dashboard"),
+        'parent' => view("parent.dashboard"),
+        'default' => abort(403, "you don't allwed from go to this page"),
+    };
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
