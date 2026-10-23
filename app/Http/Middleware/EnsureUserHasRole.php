@@ -29,7 +29,7 @@ class EnsureUserHasRole
         }
 
         if(!in_array($request->user()->role, $roles, true)){
-            abort(403);
+            abort(403, "you don't allwed from go to this page");
         }
 
         return $next($request);
