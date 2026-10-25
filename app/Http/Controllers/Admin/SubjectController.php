@@ -9,6 +9,11 @@ class SubjectController extends Controller
 {
     public function index()
     {
-        return "hello admin";
+        return view("subjects.index");
+    }
+
+    public function create()
+    {
+        return view("subjects.create");
     }
 }

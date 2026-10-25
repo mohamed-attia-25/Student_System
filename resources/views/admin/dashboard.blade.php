@@ -57,8 +57,15 @@
             <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                 <h3 class="text-lg font-semibold text-gray-800">Quick Actions</h3>
                 <p class="text-sm text-gray-500">Jump straight to common tasks.</p>
-                <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    @foreach ([['Manage Users', '👥', '#'], ['Manage Subjects', '📚', url('/subjects')], ['Reports', '📊', '#']] as [$title, $emoji, $link])
+                <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach ([
+                        ['Add Admin',       '🛡️', route('admins.create')],
+                        ['Add Teacher',     '🎓', route('teachers.create')],
+                        ['Add Parent',      '👪', route('parents.create')],
+                        ['Add Subject',     '📚', route('subjects.create')],
+                        ['Manage Subjects', '🗂️', route('subjects.index')],
+                        ['Reports',         '📊', '#'],
+                    ] as [$title, $emoji, $link])
                         <a href="{{ $link }}" class="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/60 transition">
                             <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-indigo-50 text-xl">{{ $emoji }}</span>
                             <span class="font-medium text-gray-700">{{ $title }}</span>
