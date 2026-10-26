@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\AdminController;
@@ -32,6 +33,7 @@ Route::middleware(['auth', 'role:admin'])->group(function (){
     Route::resource('teachers', TeacherController::class);
     Route::resource('admins', AdminController::class);
     Route::resource('parents', ParentController::class);
+    Route::resource('students', StudentController::class);
 });
 
 require __DIR__.'/auth.php';

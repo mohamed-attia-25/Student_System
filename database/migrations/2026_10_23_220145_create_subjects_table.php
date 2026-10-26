@@ -16,6 +16,17 @@ return new class extends Migration
             $table->string("name");
             $table->string("code")->unique();
             $table->text("description")->nullable();
+
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->string('created_by_name')->nullable();
+            $table->string('created_by_email')->nullable();
+            $table->string('created_by_role')->nullable();
+
+            $table->unsignedBigInteger('updated_by_id')->nullable();
+            $table->string('updated_by_name')->nullable();
+            $table->string('updated_by_email')->nullable();
+            $table->string('updated_by_role')->nullable();
+
             $table->timestamps();
         });
     }

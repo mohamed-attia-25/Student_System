@@ -56,21 +56,46 @@
             <!-- Quick Actions -->
             <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                 <h3 class="text-lg font-semibold text-gray-800">Quick Actions</h3>
-                <p class="text-sm text-gray-500">Jump straight to common tasks.</p>
-                <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <p class="text-sm text-gray-500">Add or manage anything from here.</p>
+            
+                <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach ([
-                        ['Add Admin',       '🛡️', route('admins.create')],
-                        ['Add Teacher',     '🎓', route('teachers.create')],
-                        ['Add Parent',      '👪', route('parents.create')],
-                        ['Add Subject',     '📚', route('subjects.create')],
-                        ['Manage Subjects', '🗂️', route('subjects.index')],
-                        ['Reports',         '📊', '#'],
-                    ] as [$title, $emoji, $link])
-                        <a href="{{ $link }}" class="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/60 transition">
-                            <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-indigo-50 text-xl">{{ $emoji }}</span>
-                            <span class="font-medium text-gray-700">{{ $title }}</span>
-                        </a>
+                        ['Students', '🎓', 'students'],
+                        ['Teachers', '👨‍🏫', 'teachers'],
+                        ['Parents',  '👪', 'parents'],
+                        ['Admins',   '🛡️', 'admins'],
+                    ] as [$title, $emoji, $name])
+                        <div class="flex items-center justify-between gap-3 p-4 rounded-xl border border-gray-200">
+                            <div class="flex items-center gap-3">
+                                <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-indigo-50 text-xl">{{ $emoji }}</span>
+                                <span class="font-semibold text-gray-800">{{ $title }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <a href="{{ route($name . '.create') }}"
+                                   class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition">
+                                    + Add
+                                </a>
+                                <a href="{{ route($name . '.index') }}"
+                                   class="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition">
+                                    Manage
+                                </a>
+                            </div>
+                        </div>
                     @endforeach
+                    
+                    {{-- Subjects --}}
+                    <div class="flex items-center justify-between gap-3 p-4 rounded-xl border border-gray-200">
+                        <div class="flex items-center gap-3">
+                            <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-indigo-50 text-xl">📚</span>
+                            <span class="font-semibold text-gray-800">Subjects</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <a href="{{ route('subjects.create') }}"
+                               class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition">+ Add</a>
+                            <a href="{{ route('subjects.index') }}"
+                               class="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition">Manage</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
