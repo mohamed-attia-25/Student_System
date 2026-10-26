@@ -1,3 +1,17 @@
+@php
+    $isAdmin = Auth::user()->role === 'admin';
+
+    $manageLinks = [
+        ['Students', 'students.index', 'students.*', '🎓'],
+        ['Teachers', 'teachers.index', 'teachers.*', '👨‍🏫'],
+        ['Parents',  'parents.index',  'parents.*',  '👪'],
+        ['Admins',   'admins.index',   'admins.*',   '🛡️'],
+        ['Subjects', 'subjects.index', 'subjects.*', '📚'],
+    ];
+
+    $manageActive = collect($manageLinks)->contains(fn ($l) => request()->routeIs($l[2]));
+@endphp
+
 <nav x-data="{ open: false }"
      class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/70">
     <!-- Primary Navigation Menu -->
@@ -24,6 +38,37 @@
                                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
                         {{ __('Dashboard') }}
                     </a>
+
+                    {{-- Manage dropdown (admin only) --}}
+                    @if ($isAdmin)
+                        <div class="relative" x-data="{ manage: false }" @click.outside="manage = false" @keydown.escape.window="manage = false">
+                            <button @click="manage = !manage"
+                                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-150
+                                           {{ $manageActive
+                                               ? 'bg-indigo-50 text-indigo-700'
+                                               : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+                                {{ __('Manage') }}
+                                <svg class="h-4 w-4 transition-transform duration-200" :class="manage && 'rotate-180'"
+                                     fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+
+                            <div x-show="manage" x-transition x-cloak
+                                 class="absolute left-0 mt-2 w-56 rounded-xl bg-white shadow-lg ring-1 ring-black/5 p-1.5 z-50">
+                                @foreach ($manageLinks as [$label, $route, $pattern, $emoji])
+                                    <a href="{{ route($route) }}"
+                                       class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition
+                                              {{ request()->routeIs($pattern)
+                                                  ? 'bg-indigo-50 text-indigo-700 font-medium'
+                                                  : 'text-gray-700 hover:bg-gray-100' }}">
+                                        <span class="text-base">{{ $emoji }}</span>
+                                        {{ $label }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -91,6 +136,34 @@
                           : 'text-gray-600 hover:bg-gray-100' }}">
                 {{ __('Dashboard') }}
             </a>
+
+            {{-- Manage section (admin only) --}}
+            @if ($isAdmin)
+                <div x-data="{ manageMobile: {{ $manageActive ? 'true' : 'false' }} }">
+                    <button @click="manageMobile = !manageMobile"
+                            class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-base font-medium
+                                   {{ $manageActive ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}">
+                        <span>{{ __('Manage') }}</span>
+                        <svg class="h-4 w-4 transition-transform duration-200" :class="manageMobile && 'rotate-180'"
+                             fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+
+                    <div x-show="manageMobile" x-transition x-cloak class="mt-1 ms-3 ps-3 border-s-2 border-indigo-100 space-y-1">
+                        @foreach ($manageLinks as [$label, $route, $pattern, $emoji])
+                            <a href="{{ route($route) }}"
+                               class="flex items-center gap-3 px-3 py-2 rounded-lg text-base
+                                      {{ request()->routeIs($pattern)
+                                          ? 'bg-indigo-50 text-indigo-700 font-medium'
+                                          : 'text-gray-600 hover:bg-gray-100' }}">
+                                <span>{{ $emoji }}</span>
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
