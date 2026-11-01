@@ -21,7 +21,7 @@
             <!-- Left: Logo + Links -->
             <div class="flex items-center gap-8">
                 <!-- Logo -->
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
+                <a href="{{ url('/') }}" class="flex items-center gap-3 group">
                     <img src="{{ asset('images/student-svgrepo-com.svg') }}" alt="logo"
                         class="h-9 w-9 transition-transform duration-200 group-hover:scale-110">
                     <span class="hidden md:block text-lg font-bold tracking-tight text-gray-800">
